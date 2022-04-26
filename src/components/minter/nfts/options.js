@@ -48,18 +48,54 @@ const Options = ({ other_qualia, pet, feed, revive, units }) => {
 
   return (! isDead ? <>
           <Card.Text className="flex-grow-1">
-        <div>
-        <ProgressBar variant={fedPercent > 51 ? "success": "danger"} now={fedPercent} label={"Hunger"} />
+        <div className="mb-3">
+        
+        
+        <ProgressBar style={{ position: "relative" }}>
+        <ProgressBar variant={fedPercent > 51 ? "success" : "danger"} now={fedPercent}  style={{ minWidth: 10}} />
+         
+          <p
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              marginRight: "-50%",
+              transform: "translate(-50%, -50%)",
+              color: "white",
+              fontWeight: "bold"
+            }}
+          >
+            Hunger
+          </p>
+        </ProgressBar>
         </div>
         
+        
+      
         <div>
-              <ProgressBar variant={fedPercent > 51 ? "success": "danger"} now={petPercent} label={"Happiness"} />
-        </div>
+          <ProgressBar style={{ position: "relative" }}>
+          <ProgressBar variant={petPercent > 51 ? "success" : "danger"} now={petPercent}  style={{ minWidth: 10}} />
+          
+            <p
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                marginRight: "-50%",
+                transform: "translate(-50%, -50%)",
+                color: "white",
+                fontWeight: "bold"
+              }}
+            >
+              Happiness
+            </p>
+          </ProgressBar>
+      </div>
             {/* </Stack> */}
           </Card.Text>
           <div>
             <Row className="mt-2">
-                <Col key={"test"}>
+                <Col key={"first"}>
                 <Button onClick={() => feed(index)} variant="primary">Feed</Button>{' '}
               </Col>
               <Col key={"second"}>

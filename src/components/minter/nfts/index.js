@@ -73,7 +73,8 @@ const NftList = ({ minterContract, name }) => {
             setLoading(true);
             await pet_k_nine(minterContract, performActions, index);
             toast(<NotificationSuccess text="Your K_nine is happy...." />);
-            new Audio(happy).audio.play();
+            console.log(happy)
+            new Audio(happy).play();
             getAssets();
         } catch (error) {
           console.log({ error });
@@ -88,7 +89,7 @@ const NftList = ({ minterContract, name }) => {
             setLoading(true);
             await feed_k_nine(minterContract, performActions, index);
             toast(<NotificationSuccess text="Your K_nine is fed...." />);
-            new Audio(hunger).audio.play();
+            new Audio(hunger).play();
             getAssets();
         } catch (error) {
           console.log({ error });
