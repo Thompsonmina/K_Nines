@@ -1,12 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types"; //Row
-import { Card, Col, Badge, Stack, Row, ProgressBar, Button} from "react-bootstrap";
+import {
+  Card,
+  Col,
+  Badge,
+  Stack,
+  Row,
+  ProgressBar,
+  Button,
+} from "react-bootstrap";
 import { truncateAddress } from "../../../utils";
 import Identicon from "../../ui/Identicon";
 import Options from "./options";
 
-const NftCard = ({ nft , pet, feed, revive, units, client_address}) => {
-  const { image, owner, name, index, last_fed, last_pet} = nft;
+const NftCard = ({ nft, pet, feed, revive, units, client_address }) => {
+  const { image, owner, name, index, last_fed, last_pet } = nft;
 
   return (
     <Col key={index}>
@@ -29,14 +37,22 @@ const NftCard = ({ nft , pet, feed, revive, units, client_address}) => {
 
         <Card.Body className="d-flex  flex-column text-center">
           <Card.Title>{name}</Card.Title>
-          {console.log(last_pet)}
 
-          { client_address === owner ?
-            <Options other_qualia={{ last_pet: last_pet, last_fed: last_fed, index: index }} pet={pet} feed={feed} units={units} revive={revive} />
-            : <></>
-          }
-
-
+          {client_address === owner ? (
+            <Options
+              other_qualia={{
+                last_pet: last_pet,
+                last_fed: last_fed,
+                index: index,
+              }}
+              pet={pet}
+              feed={feed}
+              units={units}
+              revive={revive}
+            />
+          ) : (
+            <></>
+          )}
         </Card.Body>
       </Card>
     </Col>
