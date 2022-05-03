@@ -134,6 +134,7 @@ contract K_nine is Base {
 
     mapping(uint256 => dog_state) dogs;
 
+    /** Map enum time values to their native solidity integer equivalents */
     function unit_map(Unit unit) internal pure returns (uint256) {
         if (unit == Unit.wk) return 1 weeks;
         if (unit == Unit.hr) return 1 hours;
@@ -144,22 +145,27 @@ contract K_nine is Base {
         revert("invalid time unit");
     }
 
+    /** Generate a random number */
     function random(uint256 input) internal pure returns (uint256) {
         return uint256(keccak256(abi.encodePacked(input)));
     }
 
+    /** Check if a K_Nine is hungry */
     function is_hungry(uint256 id) public view returns (bool) {
         return block.timestamp > dogs[id].last_fed + state_unit;
     }
 
+    /** Check if a K_Nine is happy */
     function is_happy(uint256 id) public view returns (bool) {
         return block.timestamp < dogs[id].last_pet + state_unit;
     }
 
+    /** Check if a K_Nine is dead */
     function is_dead(uint256 id) public view returns (bool) {
         return block.timestamp > dogs[id].last_fed + death_unit;
     }
 
+    /** Revive a dead K_Nine */
     function revive(uint256 id) public payable {
         require(ownerOf(id) == msg.sender, "you do not own this doggo");
         require(is_dead(id), "your doggo is very much alive");
@@ -168,6 +174,7 @@ contract K_nine is Base {
         dogs[id].last_fed = block.timestamp;
     }
 
+    /** Feed K_Nine that sender owns with specified token ID */
     function feed_doggo(uint256 id) public {
         require(ownerOf(id) == msg.sender, "you do not own this doggo");
         require(!is_dead(id));
@@ -175,6 +182,7 @@ contract K_nine is Base {
         dogs[id].last_fed = block.timestamp;
     }
 
+    /** Pet K_Nine that sender owns with specified token ID */
     function pet_doggo(uint256 id) public {
         require(ownerOf(id) == msg.sender, "you do not own this doggo");
         require(!is_dead(id));
@@ -182,6 +190,9 @@ contract K_nine is Base {
         dogs[id].last_pet = block.timestamp;
     }
 
+    /**
+    Mint a new K_Nine token
+    */
     function create_k9(string memory name) public {
         uint256 tokenId = _tokenIdCounter.current();
         _safeMint(msg.sender, tokenId);
@@ -190,6 +201,9 @@ contract K_nine is Base {
         dogs[tokenId] = dog_state(block.timestamp, block.timestamp, name);
     }
 
+    /**
+    Generates svg for background of K_Nine 
+    */
     function get_background(uint256 id) private view returns (string memory) {
         uint256 background_index = random(id + NONCE) %
             background_colors.length;
@@ -203,6 +217,9 @@ contract K_nine is Base {
             );
     }
 
+    /**
+    Generates svg for K_Nine head based on K_Nine state 
+    */
     function get_head(uint256 id) private view returns (string memory) {
         uint256 head_index = random(id + NONCE) % face_colors.length;
 
@@ -216,6 +233,9 @@ contract K_nine is Base {
             );
     }
 
+    /**
+    Generates svg for K_Nine ears based on K_Nine state 
+    */
     function get_ears(uint256 id) private view returns (string memory) {
         uint256 ear_index = random(id + NONCE + 1) % face_colors.length;
         string memory ear1 = string(
@@ -235,6 +255,9 @@ contract K_nine is Base {
         return string(abi.encodePacked(ear1, ear2));
     }
 
+    /**
+    Generates svg for K_Nine face based on K_Nine state 
+    */
     function get_face(uint256 id) private view returns (string memory) {
         string memory mouth;
         string memory eyes;
@@ -296,6 +319,10 @@ contract K_nine is Base {
             );
     }
 
+    /**
+    Get the URI for a token. Token URI contains base64
+    encoded representation of the state of token
+    */
     function tokenURI(uint256 id)
         public
         view
